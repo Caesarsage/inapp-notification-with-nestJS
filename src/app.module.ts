@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppService } from './app.service';
@@ -14,8 +16,8 @@ import { UsersModule } from './users/users.module';
       type: "mysql",
       host: "localhost",
       port: 3306,
-      username: "",
-      password: "",
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
       database: "in_app_notification",
       entities: [Notifications, NotificationToken, User],
       synchronize: true,
