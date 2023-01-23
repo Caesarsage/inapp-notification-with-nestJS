@@ -1,15 +1,17 @@
-import { Notification } from "src/notification/entities/notification.entity";
+import { NotificationToken } from "src/notification/entities/notification-token.entity";
+import { Notifications } from "src/notification/entities/notification.entity";
+import { User } from "src/users/entities/user.entity";
 import { DataSourceOptions } from "typeorm";
 
 const databaseConfig: DataSourceOptions = {
   type: "mysql",
-  host: "localhost",
+  host: "",
   port: 3306,
-  username: "root",
-  password: "password",
-  database: "test",
+  username: "",
+  password: "",
+  database: "in_app_notification",
   entities: [
-    Notification
+    Notifications, NotificationToken, User
   ],
   synchronize: true,
 }

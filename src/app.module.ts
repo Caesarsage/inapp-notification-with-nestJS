@@ -1,16 +1,29 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { typeOrmAsyncConfig } from './config/typeorm.config';
+import { NotificationToken } from './notification/entities/notification-token.entity';
+import { Notifications } from './notification/entities/notification.entity';
+// import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { NotificationModule } from './notification/notification.module';
+import { User } from './users/entities/user.entity';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
-    NotificationModule
+    TypeOrmModule.forRoot({
+      type: "mysql",
+      host: "localhost",
+      port: 3306,
+      username: "",
+      password: "",
+      database: "in_app_notification",
+      entities: [Notifications, NotificationToken, User],
+      synchronize: true,
+  }),
+    NotificationModule,
+    UsersModule
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [AppService],
 })
 export class AppModule {}
