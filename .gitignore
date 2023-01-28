@@ -34,3 +34,6 @@ firebase-adminsdk.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+firebase-admin-sdk.json
+.env

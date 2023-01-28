@@ -18,6 +18,7 @@ export class NotificationToken {
 
 
   @Column({
+    nullable: true,
     default: 'ACTIVE',
   })
   status: string;

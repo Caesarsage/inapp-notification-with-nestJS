@@ -7,39 +7,40 @@ import * as path from 'path';
 import { NotificationToken } from './entities/notification-token.entity';
 import { NotificationDto } from './dto/create-notification.dto';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
+import { User } from 'src/users/entities/user.entity';
 
-firebase.initializeApp({
+const init = firebase.initializeApp({
   credential: firebase.credential.cert(
-    path.join(__dirname, '..', '..', 'firebase-adminsdk.json'),
-  ),
+    path.join(__dirname, '..', '..', 'firebase-admin-sdk.json'),
+  )
 });
 @Injectable()
 export class NotificationService {
   constructor(
-    @InjectRepository(Notifications) private readonly notificationsRepo: Repository<Notifications>,
-    @InjectRepository(NotificationToken) private readonly notificationTokenRepo: Repository<NotificationToken>,
+    @InjectRepository(Notifications)
+    private readonly notificationsRepo: Repository<Notifications>,
+    @InjectRepository(NotificationToken)
+    private notificationTokenRepo: Repository<NotificationToken>,
   ) {}
 
   acceptPushNotification = async (
     user: any,
-    notification_dto: NotificationDto ,
+    notification_dto: NotificationDto,
   ): Promise<NotificationToken> => {
-    try {
-      await this.notificationTokenRepo.update(
-        { user: { id: user.id } },
-        {
-          status: 'INACTIVE',
-        },
-      );
-      return await this.notificationTokenRepo.save({
-        user,
-        notification_token: notification_dto.notification_token,
-        device_type: notification_dto.device_type,
-        status: 'ACTIVE',
-      });
-    } catch (error) {
-      return error;
-    }
+    await this.notificationTokenRepo.update(
+      { user: { id: user.id } },
+      {
+        status: 'INACTIVE',
+      },
+    );
+    // save to db
+    const notification_token = await this.notificationTokenRepo.save({
+      user: user,
+      device_type: notification_dto.device_type,
+      notification_token: notification_dto.notification_token,
+      status: 'ACTIVE',
+    });
+    return notification_token;
   };
 
   disablePushNotification = async (

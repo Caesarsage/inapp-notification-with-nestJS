@@ -4,6 +4,7 @@ import { NotificationDto } from 'src/notification/dto/create-notification.dto';
 import { UpdateNotificationDto } from 'src/notification/dto/update-notification.dto';
 import { NotificationService } from 'src/notification/notification.service';
 import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -13,7 +14,7 @@ export class UsersService {
     private readonly notificationService: NotificationService,
   ) {}
 
-  create(user: User): Promise<User> {
+  create(user: CreateUserDto): Promise<User> {
     return this.userRepository.save(user);
   }
 
@@ -33,14 +34,14 @@ export class UsersService {
       if (saved_user) {
         // send push notification
         await this.notificationService
-          .sendPush(
-            updated_user,
-            'Profiie update',
-            'Your Profile have been updated successfully',
-          )
-          .catch((e) => {
-            console.log('Error sending push notification', e);
-          });
+        .sendPush(
+          updated_user,
+          'Profile Update',
+          'Your Profile have been updated successfully',
+        )
+        .catch((e) => {
+          console.log('Error sending push notification', e);
+        });
       }
 
       return saved_user;
@@ -52,12 +53,11 @@ export class UsersService {
   enablePush = async (
     user_id: number,
     update_dto: NotificationDto,
-  ): Promise<void> => {
+  ): Promise<any> => {
     const user = await this.userRepository.findOne({
       where: { id: user_id },
     });
-
-    await this.notificationService.acceptPushNotification(user, update_dto);
+    return await this.notificationService.acceptPushNotification(user, update_dto);
   };
 
   disablePush = async (
