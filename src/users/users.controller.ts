@@ -3,9 +3,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
   HttpStatus,
   HttpCode,
   Put,
@@ -37,7 +35,7 @@ export class UsersController {
     @Body() update_dto: NotificationDto,
     @Param('id') user_id: number,
   ) {
-     return await this.usersService.enablePush(user_id, update_dto);
+    return await this.usersService.enablePush(user_id, update_dto);
   }
 
   @Put(':user_id/push/disable')

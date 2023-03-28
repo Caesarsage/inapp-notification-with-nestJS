@@ -34,14 +34,14 @@ export class UsersService {
       if (saved_user) {
         // send push notification
         await this.notificationService
-        .sendPush(
-          updated_user,
-          'Profile Update',
-          'Your Profile have been updated successfully',
-        )
-        .catch((e) => {
-          console.log('Error sending push notification', e);
-        });
+          .sendPush(
+            updated_user,
+            'Profile Update',
+            'Your Profile have been updated successfully',
+          )
+          .catch((e) => {
+            console.log('Error sending push notification', e);
+          });
       }
 
       return saved_user;
@@ -57,7 +57,10 @@ export class UsersService {
     const user = await this.userRepository.findOne({
       where: { id: user_id },
     });
-    return await this.notificationService.acceptPushNotification(user, update_dto);
+    return await this.notificationService.acceptPushNotification(
+      user,
+      update_dto,
+    );
   };
 
   disablePush = async (

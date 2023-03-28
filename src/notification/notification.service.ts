@@ -7,12 +7,11 @@ import * as path from 'path';
 import { NotificationToken } from './entities/notification-token.entity';
 import { NotificationDto } from './dto/create-notification.dto';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
-import { User } from 'src/users/entities/user.entity';
 
-const init = firebase.initializeApp({
+firebase.initializeApp({
   credential: firebase.credential.cert(
     path.join(__dirname, '..', '..', 'firebase-admin-sdk.json'),
-  )
+  ),
 });
 @Injectable()
 export class NotificationService {

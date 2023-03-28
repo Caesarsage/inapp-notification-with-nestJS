@@ -1,5 +1,5 @@
 export class CreateUserDto {
   email: string;
-  username: string
-  status: string
+  username: string;
+  status: string;
 }

@@ -10,7 +10,7 @@ import { UsersModule } from './users/users.module';
   imports: [
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     NotificationModule,
-    UsersModule
+    UsersModule,
   ],
   controllers: [],
   providers: [],

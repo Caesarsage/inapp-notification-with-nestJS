@@ -1,4 +1,3 @@
-
-export class UpdateNotificationDto  {
+export class UpdateNotificationDto {
   device_type: string;
 }
